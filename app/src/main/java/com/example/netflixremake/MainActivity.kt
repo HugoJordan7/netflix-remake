@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.model.Movie
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,8 +20,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.rv_main)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = MainAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
+
+        val movies = mutableListOf<Movie>()
+        for(i in 0 until 20){
+            movies.add(Movie(coverImage = R.drawable.movie_4))
+        }
+
+        recyclerView.adapter = MainAdapter(movies)
 
     }
 
