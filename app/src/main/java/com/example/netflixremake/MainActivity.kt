@@ -24,29 +24,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private inner class MainAdapter() : RecyclerView.Adapter<MainAdapter.MovieViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-            val layout: View = layoutInflater.inflate(R.layout.movie_item, parent, false)
-            return MovieViewHolder(layout)
-        }
-
-        override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-            holder.bind()
-        }
-
-        override fun getItemCount(): Int {
-            return 20
-        }
-
-        private inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            fun bind() {
-
-            }
-        }
-
-    }
-
 }
 
 
