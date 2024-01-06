@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
         val movies = mutableListOf<Movie>()
         for(i in 0 until 7){
-            movies.add(Movie(coverImage = R.drawable.movie_4))
+            movies.add(Movie(coverImage = R.drawable.movie_loading_background))
         }
         var categories = mutableListOf<Category>()
         for(j in 0 until 5){
