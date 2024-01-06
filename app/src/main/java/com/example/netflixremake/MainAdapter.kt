@@ -1,22 +1,22 @@
 package com.example.netflixremake
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.netflixremake.model.Movie
+import com.example.netflixremake.model.Category
 
-class MainAdapter(var list: List<Movie>): RecyclerView.Adapter<MainAdapter.MovieViewHolder>() {
+class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
-        return MovieViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.category_item,parent,false)
+        return MainViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         holder.bind(list[position])
     }
 
@@ -24,11 +24,14 @@ class MainAdapter(var list: List<Movie>): RecyclerView.Adapter<MainAdapter.Movie
         return list.size
     }
 
-    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movie) {
-            val image: ImageView = itemView.findViewById(R.id.movie_jpg)
+    inner class MainViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        fun bind(category: Category){
+            var rvCategory: RecyclerView = itemView.findViewById(R.id.category_rv)
+            rvCategory.layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false)
+            rvCategory.adapter = MovieAdapter(category.movies)
 
-            image.setImageResource(movie.coverImage)
+            var categoryTitle: TextView = itemView.findViewById(R.id.category_name)
+            categoryTitle.text = category.name
         }
     }
 

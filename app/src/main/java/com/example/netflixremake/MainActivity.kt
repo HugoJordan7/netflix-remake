@@ -2,32 +2,29 @@ package com.example.netflixremake
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.model.Category
 import com.example.netflixremake.model.Movie
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.rv_main)
-        recyclerView.layoutManager = LinearLayoutManager(this,RecyclerView.HORIZONTAL,false)
-
         val movies = mutableListOf<Movie>()
-        for(i in 0 until 20){
+        for(i in 0 until 7){
             movies.add(Movie(coverImage = R.drawable.movie_4))
         }
+        var categories = mutableListOf<Category>()
+        for(j in 0 until 5){
+            categories.add(Category(name = "Category ${j+1}",movies = movies))
+        }
 
-        recyclerView.adapter = MainAdapter(movies)
+        var rvMain: RecyclerView = findViewById(R.id.main_rv)
+        rvMain.layoutManager = LinearLayoutManager(this)
+        rvMain.adapter = MainAdapter(categories)
 
     }
 
