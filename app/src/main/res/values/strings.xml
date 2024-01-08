@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">NetflixRemake</string>
+    <string name="spam">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</string>
+    <string name="movie_cast">Elenco: %1$s</string>
+    <string name="similar_options">Opções semelhantes</string>
+
 </resources>
