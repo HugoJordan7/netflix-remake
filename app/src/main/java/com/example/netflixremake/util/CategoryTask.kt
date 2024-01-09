@@ -1,6 +1,8 @@
 package com.example.netflixremake.util
 
 import android.util.Log
+import java.io.BufferedInputStream
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.net.URL
@@ -29,14 +31,31 @@ class CategoryTask {
                 //Bytes sequence
                 val stream: InputStream = urlConnection.inputStream
 
-                //Bytes to String
-                val jsonToString = stream.bufferedReader().use { it.readText() }
-                Log.i("Test","Json to string")
+                /*Bytes to String
+
+                - Form 1 (ready methods):
+                    val jsonToString = stream.bufferedReader().use { it.readText() }
+
+                - Form 2 (manually): */
+                val buffer = BufferedInputStream(stream)
+                val jsonToString = streamToString(buffer)
+                Log.i("Test json",jsonToString)
 
             } catch (e: IOException){
                 Log.e("Error Test",e.message ?: "Unknown error!",e)
             }
         }
 
+    }
+
+    private fun streamToString(stream: InputStream): String{
+        var bytes = ByteArray(1024)
+        var outputStream = ByteArrayOutputStream()
+        var read: Int
+        do {
+            read = stream.read(bytes)
+            outputStream.write(bytes,0,read)
+        } while (read <= 0)
+        return String(outputStream.toByteArray())
     }
 }

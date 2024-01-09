@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         rvMain.layoutManager = LinearLayoutManager(this)
         rvMain.adapter = MainAdapter(categories)
 
-        CategoryTask().execute("https://api.thiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")
+        CategoryTask().execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")
 
     }
 
