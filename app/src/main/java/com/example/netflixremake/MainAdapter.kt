@@ -28,7 +28,7 @@ class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.Ma
         fun bind(category: Category){
             var rvCategory: RecyclerView = itemView.findViewById(R.id.category_rv)
             rvCategory.layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false)
-            rvCategory.adapter = MovieAdapter(category.movies)
+            rvCategory.adapter = MovieAdapter(category.movies,R.layout.movie_item)
 
             var categoryTitle: TextView = itemView.findViewById(R.id.category_name)
             categoryTitle.text = category.name
