@@ -1,12 +1,12 @@
-package com.example.netflixremake
+package com.example.netflixremake.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.R
 import com.example.netflixremake.model.Category
 
 class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
@@ -28,7 +28,7 @@ class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.Ma
         fun bind(category: Category){
             var rvCategory: RecyclerView = itemView.findViewById(R.id.category_rv)
             rvCategory.layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false)
-            rvCategory.adapter = MovieAdapter(category.movies,R.layout.movie_item)
+            rvCategory.adapter = MovieAdapter(category.movies, R.layout.movie_item)
 
             var categoryTitle: TextView = itemView.findViewById(R.id.category_name)
             categoryTitle.text = category.name

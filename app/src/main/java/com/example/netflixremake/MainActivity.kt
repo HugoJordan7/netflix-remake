@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.adapters.MainAdapter
 import com.example.netflixremake.model.Category
 import com.example.netflixremake.model.Movie
+import com.example.netflixremake.util.CategoryTask
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,18 +15,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val movies = mutableListOf<Movie>()
-        for(i in 0 until 7){
-            movies.add(Movie(coverImage = R.drawable.movie_loading_background))
-        }
         var categories = mutableListOf<Category>()
-        for(j in 0 until 5){
-            categories.add(Category(name = "Category ${j+1}",movies = movies))
-        }
 
         var rvMain: RecyclerView = findViewById(R.id.main_rv)
         rvMain.layoutManager = LinearLayoutManager(this)
         rvMain.adapter = MainAdapter(categories)
+
+        CategoryTask().execute("https://api.thiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")
 
     }
 

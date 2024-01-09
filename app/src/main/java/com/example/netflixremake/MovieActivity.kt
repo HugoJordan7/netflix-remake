@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.adapters.MovieAdapter
 import com.example.netflixremake.model.Movie
 
 class MovieActivity : AppCompatActivity() {
@@ -40,9 +41,6 @@ class MovieActivity : AppCompatActivity() {
         movieCast.text = getString(R.string.movie_cast,"Actor 1, Actor 2, Actress 1 and Actress 2")
 
         val movies = mutableListOf<Movie>()
-        for(i in 0 until 18){
-            movies.add(Movie(coverImage = R.drawable.movie_loading_background))
-        }
 
         rvSimilarMovies.layoutManager = GridLayoutManager(this,3)
         rvSimilarMovies.adapter = MovieAdapter(movies,R.layout.movie_item_similar)

@@ -1,4 +1,4 @@
-package com.example.netflixremake
+package com.example.netflixremake.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import com.example.netflixremake.R
 import com.example.netflixremake.model.Movie
 
 class MovieAdapter(
@@ -30,7 +31,6 @@ class MovieAdapter(
         fun bind(movie: Movie) {
             val image: ImageView = itemView.findViewById(R.id.movie_jpg)
 
-            image.setImageResource(movie.coverImage)
         }
     }
 
