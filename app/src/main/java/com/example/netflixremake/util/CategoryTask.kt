@@ -1,5 +1,8 @@
 package com.example.netflixremake.util
 
+import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.example.netflixremake.model.Category
 import com.example.netflixremake.model.Movie
@@ -13,7 +16,14 @@ import java.net.URL
 import java.util.concurrent.Executors
 import javax.net.ssl.HttpsURLConnection
 
-class CategoryTask {
+class CategoryTask(private var callBack: CallBack) {
+
+    interface CallBack{
+        fun onResult(categories: List<Category>)
+        fun onFailure(message: String)
+    }
+
+    private val handler = Handler(Looper.getMainLooper())
 
     fun execute(urlText: String){
         //Executing UI thread
@@ -21,9 +31,9 @@ class CategoryTask {
 
         //Executing alternative thread
         executor.execute {
-            lateinit var urlConnection: HttpsURLConnection
-            lateinit var stream: InputStream
-            lateinit var buffer: BufferedInputStream
+            var urlConnection: HttpsURLConnection? = null
+            var stream: InputStream? = null
+            var buffer: BufferedInputStream? = null
 
             try{
                 urlConnection = URL(urlText).openConnection() as HttpsURLConnection //create, open and specify connection
@@ -46,12 +56,20 @@ class CategoryTask {
                 - Form 2 (manually): */
                 buffer = BufferedInputStream(stream)
                 val jsonAsString = streamToString(buffer)
-                Log.i("Json string",jsonAsString)
                 var categories: List<Category> = stringToCategory(jsonAsString)
-                Log.i("Json tests",categories.toString())
+
+                handler.post { //Back to UI Thread
+                    callBack.onResult(categories)
+                }
+
 
             } catch (e: IOException){
-                Log.e("Error Test",e.message ?: "Unknown error!",e)
+                val message: String = e.message ?: "Unknown error!"
+                Log.e("Error Test",message,e)
+                handler.post {
+                    callBack.onFailure(message)
+                }
+
             } finally {
                 urlConnection?.disconnect()
                 stream?.close()
