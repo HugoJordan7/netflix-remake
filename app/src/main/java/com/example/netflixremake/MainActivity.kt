@@ -16,18 +16,18 @@ import com.example.netflixremake.util.CategoryTask
 class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
 
     private lateinit var progress: ProgressBar
+    private var categories = mutableListOf<Category>()
+    private lateinit var adapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         progress = findViewById(R.id.main_progress)
-
-        var categories = mutableListOf<Category>()
-
         var rvMain: RecyclerView = findViewById(R.id.main_rv)
         rvMain.layoutManager = LinearLayoutManager(this)
-        rvMain.adapter = MainAdapter(categories)
+        adapter = MainAdapter(categories)
+        rvMain.adapter = adapter
 
         CategoryTask(this).execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")
 
@@ -38,9 +38,10 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
     }
 
     override fun onResult(categories: List<Category>) {
-        Log.i("Json Main",categories.toString())
         progress.visibility = View.GONE
-        Toast.makeText(this,"Movies loaded successfully",Toast.LENGTH_LONG).show()
+        this.categories.clear()
+        this.categories.addAll(categories)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onFailure(message: String) {
