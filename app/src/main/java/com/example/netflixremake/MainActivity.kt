@@ -3,6 +3,8 @@ package com.example.netflixremake
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,9 +15,13 @@ import com.example.netflixremake.util.CategoryTask
 
 class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
 
+    private lateinit var progress: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        progress = findViewById(R.id.main_progress)
 
         var categories = mutableListOf<Category>()
 
@@ -27,12 +33,18 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
 
     }
 
+    override fun onPreExecute() {
+        progress.visibility = View.VISIBLE
+    }
+
     override fun onResult(categories: List<Category>) {
         Log.i("Json Main",categories.toString())
-        Toast.makeText(this,"It gave right",Toast.LENGTH_LONG).show()
+        progress.visibility = View.GONE
+        Toast.makeText(this,"Movies loaded successfully",Toast.LENGTH_LONG).show()
     }
 
     override fun onFailure(message: String) {
+        progress.visibility = View.GONE
         Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
 

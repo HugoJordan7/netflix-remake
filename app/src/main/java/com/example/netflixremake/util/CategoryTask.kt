@@ -19,6 +19,7 @@ import javax.net.ssl.HttpsURLConnection
 class CategoryTask(private var callBack: CallBack) {
 
     interface CallBack{
+        fun onPreExecute()
         fun onResult(categories: List<Category>)
         fun onFailure(message: String)
     }
@@ -27,6 +28,8 @@ class CategoryTask(private var callBack: CallBack) {
 
     fun execute(urlText: String){
         //Executing UI thread
+        callBack.onPreExecute()
+
         val executor = Executors.newSingleThreadExecutor()
 
         //Executing alternative thread
@@ -57,7 +60,6 @@ class CategoryTask(private var callBack: CallBack) {
                 buffer = BufferedInputStream(stream)
                 val jsonAsString = streamToString(buffer)
                 var categories: List<Category> = stringToCategory(jsonAsString)
-
                 handler.post { //Back to UI Thread
                     callBack.onResult(categories)
                 }
