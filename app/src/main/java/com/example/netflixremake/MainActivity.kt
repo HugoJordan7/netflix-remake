@@ -1,5 +1,6 @@
 package com.example.netflixremake
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixremake.adapters.MainAdapter
+import com.example.netflixremake.adapters.MovieAdapter
 import com.example.netflixremake.model.Category
 import com.example.netflixremake.model.Movie
 import com.example.netflixremake.util.CategoryTask
@@ -26,7 +28,10 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
         progress = findViewById(R.id.main_progress)
         var rvMain: RecyclerView = findViewById(R.id.main_rv)
         rvMain.layoutManager = LinearLayoutManager(this)
-        adapter = MainAdapter(categories)
+        adapter = MainAdapter(categories){ id ->
+            startActivity(Intent(this,MovieActivity::class.java))
+            Log.i("Test","$id")
+        }
         rvMain.adapter = adapter
 
         CategoryTask(this).execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")
@@ -48,6 +53,7 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
         progress.visibility = View.GONE
         Toast.makeText(this,message,Toast.LENGTH_LONG).show()
     }
+
 
 }
 

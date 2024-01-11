@@ -40,8 +40,8 @@ class CategoryTask(private var callBack: CallBack) {
 
             try{
                 urlConnection = URL(urlText).openConnection() as HttpsURLConnection //create, open and specify connection
-                urlConnection.readTimeout = 2000 //2s to read all information
-                urlConnection.connectTimeout = 2000 //2s to connect from server
+                urlConnection.readTimeout = 4000 //4s to read all information
+                urlConnection.connectTimeout = 4000 //4s to connect from server
 
                 val statusCode: Int = urlConnection.responseCode
                 if(statusCode > 400){

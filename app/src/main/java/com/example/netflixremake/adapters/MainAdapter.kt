@@ -9,7 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixremake.R
 import com.example.netflixremake.model.Category
 
-class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(
+        var list: List<Category>,
+        var context: ( (Int) -> Unit )? = null
+    ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.category_item,parent,false)
@@ -28,7 +31,7 @@ class MainAdapter(var list: List<Category>): RecyclerView.Adapter<MainAdapter.Ma
         fun bind(category: Category){
             var rvCategory: RecyclerView = itemView.findViewById(R.id.category_rv)
             rvCategory.layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false)
-            rvCategory.adapter = MovieAdapter(category.movies, R.layout.movie_item)
+            rvCategory.adapter = MovieAdapter(category.movies, R.layout.movie_item,context)
 
             var categoryTitle: TextView = itemView.findViewById(R.id.category_name)
             categoryTitle.text = category.name
