@@ -3,16 +3,12 @@ package com.example.netflixremake
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.netflixremake.adapters.MainAdapter
-import com.example.netflixremake.adapters.MovieAdapter
 import com.example.netflixremake.model.Category
-import com.example.netflixremake.model.Movie
 import com.example.netflixremake.util.CategoryTask
 
 class MainActivity : AppCompatActivity(), CategoryTask.CallBack {

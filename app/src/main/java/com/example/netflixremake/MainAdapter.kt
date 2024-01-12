@@ -1,4 +1,4 @@
-package com.example.netflixremake.adapters
+package com.example.netflixremake
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.netflixremake.R
 import com.example.netflixremake.model.Category
 
 class MainAdapter(

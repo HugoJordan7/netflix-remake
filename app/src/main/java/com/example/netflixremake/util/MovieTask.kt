@@ -27,6 +27,7 @@ class MovieTask(private var callback: Callback) {
     private var executor = Executors.newSingleThreadExecutor()
 
     fun execute(urlText: String){
+
         callback.onPreExecute()
 
         executor.execute {

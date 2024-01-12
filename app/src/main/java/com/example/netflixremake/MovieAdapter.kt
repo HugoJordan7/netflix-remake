@@ -1,6 +1,5 @@
-package com.example.netflixremake.adapters
+package com.example.netflixremake
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.example.netflixremake.MovieActivity
-import com.example.netflixremake.R
 import com.example.netflixremake.model.Movie
 import com.example.netflixremake.util.DownloadImageTask
-import com.squareup.picasso.Picasso
 
 class MovieAdapter(
         var list: List<Movie>,
