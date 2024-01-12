@@ -28,10 +28,14 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
         progress = findViewById(R.id.main_progress)
         var rvMain: RecyclerView = findViewById(R.id.main_rv)
         rvMain.layoutManager = LinearLayoutManager(this)
+
         adapter = MainAdapter(categories){ id ->
-            startActivity(Intent(this,MovieActivity::class.java))
-            Log.i("Test","$id")
+            startActivity(
+                Intent(this,MovieActivity::class.java)
+                    .putExtra("id",id)
+            )
         }
+
         rvMain.adapter = adapter
 
         CategoryTask(this).execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613")

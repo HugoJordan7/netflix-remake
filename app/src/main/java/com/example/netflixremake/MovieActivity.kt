@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.LayerDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,8 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixremake.adapters.MovieAdapter
 import com.example.netflixremake.model.Movie
+import com.example.netflixremake.model.MovieDetail
+import com.example.netflixremake.util.MovieTask
+import java.lang.Exception
 
-class MovieActivity : AppCompatActivity() {
+class MovieActivity : AppCompatActivity(), MovieTask.Callback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)
@@ -25,6 +29,13 @@ class MovieActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = null
+
+        val id = intent?.getIntExtra("id",0) ?: throw Exception("Id not reported!")
+        if(id <1) throw Exception("Id not reported!")
+        val url = "https://api.tiagoaguiar.co/netflixapp/movie/$id?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613"
+
+        MovieTask(this).execute(url)
+
 
         var shadows: LayerDrawable = ContextCompat.getDrawable(this,R.drawable.shadows) as LayerDrawable
         var imageShadow: Drawable = ContextCompat.getDrawable(this,R.drawable.movie_4) as Drawable
@@ -53,5 +64,15 @@ class MovieActivity : AppCompatActivity() {
             finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPreExecute() {
+    }
+
+    override fun onResult(movieDetail: MovieDetail) {
+        Log.i("test",movieDetail.toString())
+    }
+
+    override fun onFailure(message: String) {
     }
 }
