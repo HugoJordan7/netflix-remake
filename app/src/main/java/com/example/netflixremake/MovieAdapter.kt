@@ -11,9 +11,9 @@ import com.example.netflixremake.model.Movie
 import com.example.netflixremake.util.DownloadImageTask
 
 class MovieAdapter(
-        var list: List<Movie>,
+        var listMovie: List<Movie>,
         @LayoutRes var layout: Int,
-        var context: ( (Int) -> Unit )? = null
+        var context: ( (Int,List<Movie>?) -> Unit )? = null
     ): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -22,18 +22,24 @@ class MovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(listMovie[position])
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return listMovie.size
     }
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) {
             val image: ImageView = itemView.findViewById(R.id.movie_jpg)
             image.setOnClickListener {
-                context?.invoke(movie.id)
+                val similarList = mutableListOf<Movie>()
+                for(item in listMovie){
+                    if(movie.id != item.id) {
+                        similarList.add(item)
+                    }
+                }
+                context?.invoke(movie.id,similarList)
             }
 
             // Using the Picasso Library

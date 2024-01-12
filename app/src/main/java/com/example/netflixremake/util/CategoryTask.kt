@@ -1,6 +1,5 @@
 package com.example.netflixremake.util
 
-import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log

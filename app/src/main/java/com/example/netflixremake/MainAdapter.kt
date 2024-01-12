@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.netflixremake.model.Category
+import com.example.netflixremake.model.Movie
 
 class MainAdapter(
         var list: List<Category>,
-        var context: ( (Int) -> Unit )? = null
+        var context: ( (Int, List<Movie>?) -> Unit )? = null
     ): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
@@ -28,6 +29,7 @@ class MainAdapter(
 
     inner class MainViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(category: Category){
+
             var rvCategory: RecyclerView = itemView.findViewById(R.id.category_rv)
             rvCategory.layoutManager = LinearLayoutManager(itemView.context,RecyclerView.HORIZONTAL,false)
             rvCategory.adapter = MovieAdapter(category.movies, R.layout.movie_item,context)

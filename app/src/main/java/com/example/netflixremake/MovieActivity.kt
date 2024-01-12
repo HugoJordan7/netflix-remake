@@ -30,7 +30,7 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
     private lateinit var movieDescription: TextView
     private lateinit var movieCast: TextView
     private var movies = mutableListOf<Movie>()
-    private var adapter = MovieAdapter(movies,R.layout.movie_item_similar)
+    private lateinit var adapter: MovieAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +53,9 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
         if(id <1) throw Exception("Id not reported!")
         val url = "https://api.tiagoaguiar.co/netflixapp/movie/$id?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613"
 
+        val arrayMovies: Array<Movie> = intent?.extras?.get("arrays") as Array<Movie>
+
+
         MovieTask(this).execute(url)
 
 
@@ -66,11 +69,13 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
         var movieCast: TextView = findViewById(R.id.movie_cast)
         var rvSimilarMovies: RecyclerView = findViewById(R.id.movie_rv_similar)
 
-        movieTitle.text = "Batman"
-        movieDescription.text = "Imagine que essa é uma descrição do batman: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-        movieCast.text = getString(R.string.movie_cast,"Actor 1, Actor 2, Actress 1 and Actress 2")
+        movieTitle.text = ""
+        movieDescription.text = ""
+        movieCast.text = ""
 
         rvSimilarMovies.layoutManager = GridLayoutManager(this,3)
+        movies.addAll(arrayMovies)
+        adapter = MovieAdapter(movies,R.layout.movie_item_similar)
         rvSimilarMovies.adapter = adapter
 
     }
@@ -93,11 +98,6 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
         movieTitle.text = movieRoot.title
         movieDescription.text = movieRoot.desc
         movieCast.text = getString(R.string.movie_cast,movieRoot.cast)
-
-        movies.clear()
-        movies.addAll(movieDetail.similar)
-        adapter.notifyDataSetChanged()
-
 
         DownloadImageTask(
             object : DownloadImageTask.CallBack{

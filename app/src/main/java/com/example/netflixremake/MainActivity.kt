@@ -25,10 +25,11 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
         var rvMain: RecyclerView = findViewById(R.id.main_rv)
         rvMain.layoutManager = LinearLayoutManager(this)
 
-        adapter = MainAdapter(categories){ id ->
+        adapter = MainAdapter(categories){ id,movies ->
             startActivity(
                 Intent(this,MovieActivity::class.java)
                     .putExtra("id",id)
+                    .putExtra("arrays",movies?.toTypedArray())
             )
         }
 
