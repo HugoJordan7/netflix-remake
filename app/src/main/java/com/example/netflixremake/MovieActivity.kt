@@ -1,5 +1,6 @@
 package com.example.netflixremake
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -22,7 +23,7 @@ import com.example.netflixremake.util.DownloadImageTask
 import com.example.netflixremake.util.MovieTask
 import java.lang.Exception
 
-class MovieActivity : AppCompatActivity(), MovieTask.Callback {
+class MovieActivity : AppCompatActivity(), MovieTask.Callback, MovieAdapter.Callback {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var movieCover: ImageView
@@ -53,7 +54,7 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
         if(id <1) throw Exception("Id not reported!")
         val url = "https://api.tiagoaguiar.co/netflixapp/movie/$id?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613"
 
-        val arrayMovies: Array<Movie> = intent?.extras?.get("arrays") as Array<Movie>
+        val arrayMovies: Array<Movie> = intent?.extras?.get("similar") as Array<Movie>
 
 
         MovieTask(this).execute(url)
@@ -75,7 +76,7 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
 
         rvSimilarMovies.layoutManager = GridLayoutManager(this,3)
         movies.addAll(arrayMovies)
-        adapter = MovieAdapter(movies,R.layout.movie_item_similar)
+        adapter = MovieAdapter(movies,R.layout.movie_item_similar,null,this@MovieActivity)
         rvSimilarMovies.adapter = adapter
 
     }
@@ -114,5 +115,18 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback {
 
     override fun onFailure(message: String) {
         progressBar.visibility = View.GONE
+    }
+
+    override fun onMovieSimilarCLick(id: Int, similarMovies: List<Movie>) {
+        //reabrir movie activity com dados do filme similar
+
+        startActivity(
+            Intent(this,MovieActivity::class.java)
+                .putExtra("id",id)
+                .putExtra("similar",similarMovies?.toTypedArray())
+        )
+
+        finish()
+
     }
 }

@@ -11,10 +11,15 @@ import com.example.netflixremake.model.Movie
 import com.example.netflixremake.util.DownloadImageTask
 
 class MovieAdapter(
-        var listMovie: List<Movie>,
-        @LayoutRes var layout: Int,
-        var context: ( (Int,List<Movie>?) -> Unit )? = null
-    ): RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+    var listMovie: List<Movie>,
+    @LayoutRes var layout: Int,
+    var context: ((Int, List<Movie>?) -> Unit)? = null,
+    var callback: Callback? = null
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+
+    interface Callback {
+        fun onMovieSimilarCLick(id: Int, similarMovies: List<Movie>)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(layout, parent, false)
@@ -34,12 +39,15 @@ class MovieAdapter(
             val image: ImageView = itemView.findViewById(R.id.movie_jpg)
             image.setOnClickListener {
                 val similarList = mutableListOf<Movie>()
-                for(item in listMovie){
-                    if(movie.id != item.id) {
+                similarList.addAll(listMovie)
+                /* Para excluir filme atual da lista de similares
+                for (item in listMovie) {
+                    if (movie.id != item.id) {
                         similarList.add(item)
                     }
-                }
-                context?.invoke(movie.id,similarList)
+                }*/
+                context?.invoke(movie.id, similarList)
+                callback?.onMovieSimilarCLick(movie.id,similarList)
             }
 
             // Using the Picasso Library
@@ -47,7 +55,7 @@ class MovieAdapter(
 
             /*Using project file manually*/
             DownloadImageTask(
-                object : DownloadImageTask.CallBack{
+                object : DownloadImageTask.CallBack {
                     override fun onResult(bitmap: Bitmap) {
                         image.setImageBitmap(bitmap)
                     }

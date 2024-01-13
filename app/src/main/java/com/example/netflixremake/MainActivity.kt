@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), CategoryTask.CallBack {
             startActivity(
                 Intent(this,MovieActivity::class.java)
                     .putExtra("id",id)
-                    .putExtra("arrays",movies?.toTypedArray())
+                    .putExtra("similar",movies?.toTypedArray())
             )
         }
 
