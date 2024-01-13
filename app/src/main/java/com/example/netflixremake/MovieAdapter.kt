@@ -18,7 +18,7 @@ class MovieAdapter(
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     interface Callback {
-        fun onMovieSimilarCLick(id: Int, similarMovies: List<Movie>)
+        fun onMovieSimilarClick(id: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -38,16 +38,9 @@ class MovieAdapter(
         fun bind(movie: Movie) {
             val image: ImageView = itemView.findViewById(R.id.movie_jpg)
             image.setOnClickListener {
-                val similarList = mutableListOf<Movie>()
-                similarList.addAll(listMovie)
-                /* Para excluir filme atual da lista de similares
-                for (item in listMovie) {
-                    if (movie.id != item.id) {
-                        similarList.add(item)
-                    }
-                }*/
-                context?.invoke(movie.id, similarList)
-                callback?.onMovieSimilarCLick(movie.id,similarList)
+                context?.invoke(movie.id, listMovie)
+                callback?.onMovieSimilarClick(movie.id)
+
             }
 
             // Using the Picasso Library

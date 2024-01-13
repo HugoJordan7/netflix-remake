@@ -32,6 +32,7 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback, MovieAdapter.Call
     private lateinit var movieCast: TextView
     private var movies = mutableListOf<Movie>()
     private lateinit var adapter: MovieAdapter
+    private lateinit var arrayMovies: Array<Movie>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +55,7 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback, MovieAdapter.Call
         if(id <1) throw Exception("Id not reported!")
         val url = "https://api.tiagoaguiar.co/netflixapp/movie/$id?apiKey=54d253d6-bd6c-466b-a34c-053a97ce4613"
 
-        val arrayMovies: Array<Movie> = intent?.extras?.get("similar") as Array<Movie>
+        arrayMovies = intent?.extras?.get("similar") as Array<Movie>
 
 
         MovieTask(this).execute(url)
@@ -75,7 +76,15 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback, MovieAdapter.Call
         movieCast.text = ""
 
         rvSimilarMovies.layoutManager = GridLayoutManager(this,3)
-        movies.addAll(arrayMovies)
+
+        //movies.addAll(arrayMovies)
+        for (item in arrayMovies){
+            if(item.id != id){
+                movies.add(item)
+            }
+        }
+
+
         adapter = MovieAdapter(movies,R.layout.movie_item_similar,null,this@MovieActivity)
         rvSimilarMovies.adapter = adapter
 
@@ -117,16 +126,12 @@ class MovieActivity : AppCompatActivity(), MovieTask.Callback, MovieAdapter.Call
         progressBar.visibility = View.GONE
     }
 
-    override fun onMovieSimilarCLick(id: Int, similarMovies: List<Movie>) {
-        //reabrir movie activity com dados do filme similar
-
+    override fun onMovieSimilarClick(id: Int) {
         startActivity(
             Intent(this,MovieActivity::class.java)
                 .putExtra("id",id)
-                .putExtra("similar",similarMovies?.toTypedArray())
+                .putExtra("similar",arrayMovies)
         )
-
         finish()
-
     }
 }

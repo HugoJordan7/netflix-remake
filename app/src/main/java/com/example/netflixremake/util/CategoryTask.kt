@@ -58,11 +58,11 @@ class CategoryTask(private var callBack: CallBack) {
                 - Form 2 (manually): */
                 buffer = BufferedInputStream(stream)
                 val jsonAsString = streamToString(buffer)
+
                 var categories: List<Category> = stringToCategory(jsonAsString)
                 handler.post { //Back to UI Thread
                     callBack.onResult(categories)
                 }
-
 
             } catch (e: IOException){
                 val message: String = e.message ?: "Unknown error!"
